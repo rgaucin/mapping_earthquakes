@@ -46,7 +46,7 @@ L.geoJSON(sanFranAirport, {
 }).addTo(map);
 
 // tile layer for map background
-let slight = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/{z}/{x}/{y}?access_token={accessToken}", {
+let streets = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v11/tiles/{z}/{x}/{y}?access_token={accessToken}", {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
     maxZoom: 18,
     accessToken: API_KEY
@@ -60,15 +60,15 @@ let dark = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/dark-v10/tiles/{
 });
 
 let baseMaps = {
-    Light: light,
+    Street: streets,
     Dark: dark
 };
 
 // create map object with a center and zoom level
 let map = L.map("mapid", {
-    center: [44.0, -80.0],
+    center: [30, 30],
     zoom: 2,
-    layers: [light]
+    layers: [streets]
 });
 
 L.control.layers(baseMaps).addTo(map);
@@ -76,17 +76,14 @@ L.control.layers(baseMaps).addTo(map);
 // Accessing the airport GeoJSON URL
 let airportData = "https://raw.githubusercontent.com/rgaucin/Mapping_Earthquakes/main/majorAirports.json";
 
-// Accessing the Toronto airline routes GeoJSON URL.
-let torontoData = "https://raw.githubusercontent.com/rgaucin/Mapping_Earthquakes/main/torontoRoutes.json";
-
-d3.json(torontoData).then(function(data) {
+d3.json(airportData).then(function(data) {
     console.log(data);
     // create geojson layer with data
     L.geoJSON(data).addTo(map);
 })
 
 // add "graymap" tile layer to map
-// streets.addTo(map);
+streets.addTo(map);
 
 // get city data from cities.js
 let cityData = cities;
